@@ -1,5 +1,6 @@
 package com.pathplanner.lib.auto;
 
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj2.command.*;
 import java.io.IOException;
@@ -77,9 +78,11 @@ public class CommandUtil {
     String pathName = (String) dataJson.get("pathName");
 
     if (choreoPath) {
-      return AutoBuilder.followPath(PathPlannerPath.fromChoreoTrajectory(pathName));
+      return AutoBuilder.pathfindThenFollowPath(
+          PathPlannerPath.fromChoreoTrajectory(pathName), PathConstraints.unlimitedConstraints(12));
     } else {
-      return AutoBuilder.followPath(PathPlannerPath.fromPathFile(pathName));
+      return AutoBuilder.pathfindThenFollowPath(
+          PathPlannerPath.fromPathFile(pathName), PathConstraints.unlimitedConstraints(12));
     }
   }
 
